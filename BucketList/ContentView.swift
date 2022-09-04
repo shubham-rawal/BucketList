@@ -9,68 +9,71 @@ import MapKit
 import SwiftUI
 
 struct ContentView: View {
-    @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 50, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25))
-    @State private var locations = [Location]()
-    
-    @State private var selectedLocation : Location?
-    
+    @StateObject private var viewModel = ViewModel()
     
     var body: some View {
-        ZStack {
-            Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
-                MapAnnotation(coordinate: location.coordinate) {
-                    VStack {
-                        Image(systemName: "star.circle")
-                            .resizable()
-                            .foregroundColor(.red)
-                            .frame(width: 44, height: 44)
-                            .background(.white)
-                            .clipShape(Circle())
+        if viewModel.isUnlocked {
+            ZStack {
+                Map(coordinateRegion: $viewModel.mapRegion, annotationItems: viewModel.locations) { location in
+                    MapAnnotation(coordinate: location.coordinate) {
+                        VStack {
+                            Image(systemName: "star.circle")
+                                .resizable()
+                                .foregroundColor(.red)
+                                .frame(width: 44, height: 44)
+                                .background(.white)
+                                .clipShape(Circle())
+                            
+                            Text(location.name)
+                                .fixedSize()
+                        }
+                        .onTapGesture {
+                            viewModel.selectedLocation = location
+                        }
                         
-                        Text(location.name)
-                            .fixedSize()
                     }
-                    .onTapGesture {
-                        selectedLocation = location
-                    }
-                    
                 }
-            }
-                .ignoresSafeArea()
-            
-            Circle()
-                .fill(.blue)
-                .opacity(0.3)
-                .frame(width: 32, height: 32)
-            
-            VStack {
-                Spacer()
+                    .ignoresSafeArea()
                 
-                HStack {
+                Circle()
+                    .fill(.blue)
+                    .opacity(0.3)
+                    .frame(width: 32, height: 32)
+                
+                VStack {
                     Spacer()
                     
-                    Button {
-                        let newLocation = Location(id: UUID(), name: "New Location", description: "", latitude: mapRegion.center.latitude, longitude: mapRegion.center.longitude)
-                        locations.append(newLocation)
-                    } label: {
-                        Image(systemName: "plus")
+                    HStack {
+                        Spacer()
+                        
+                        Button {
+                            viewModel.addLocation()
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        .padding()
+                        .background(.black.opacity(0.75))
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .clipShape(Circle())
+                        .padding(.trailing)
                     }
-                    .padding()
-                    .background(.black.opacity(0.75))
-                    .font(.title)
-                    .foregroundColor(.white)
-                    .clipShape(Circle())
-                    .padding(.trailing)
                 }
             }
-        }
-        .sheet(item: $selectedLocation) { place in
-            //the onSave closure is passed here i.e. initialised here but this would be called later when the onSave function is called in the EditView file. (hence the @escaping
-            EditView(location: place) { newLocation in
-                if let index = locations.firstIndex(of: place) {
-                    locations[index] = newLocation
+            .sheet(item: $viewModel.selectedLocation) { place in
+                //the onSave closure is passed here i.e. initialised here but this would be called later when the onSave function is called in the EditView file. (hence the @escaping
+                EditView(location: place) { newLocation in
+                    viewModel.update(location: newLocation)
                 }
             }
+        } else {
+            Button("Unlock Places") {
+                viewModel.authenticate()
+            }
+            .padding()
+            .background(.blue)
+            .foregroundColor(.white)
+            .clipShape(Capsule())
         }
     }
 }
