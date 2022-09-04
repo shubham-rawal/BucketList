@@ -5,39 +5,72 @@
 //  Created by Shubham Rawal on 31/08/22.
 //
 
-import LocalAuthentication
+import MapKit
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isUnlocked = false
+    @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 50, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25))
+    @State private var locations = [Location]()
+    
+    @State private var selectedLocation : Location?
+    
     
     var body: some View {
-        VStack {
-            if isUnlocked {
-                Text("Unlocked")
-            } else {
-                Text("Locked")
-            }
-        }
-        .onAppear(perform: authenticate)
-    }
-    
-    func authenticate() {
-        let context = LAContext()
-        var error : NSError?
-        
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "We need to unlock your data" //for touch id reason
-            
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-                if success {
-                    isUnlocked = true
-                } else {
-                    //there was a problem
+        ZStack {
+            Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
+                MapAnnotation(coordinate: location.coordinate) {
+                    VStack {
+                        Image(systemName: "star.circle")
+                            .resizable()
+                            .foregroundColor(.red)
+                            .frame(width: 44, height: 44)
+                            .background(.white)
+                            .clipShape(Circle())
+                        
+                        Text(location.name)
+                            .fixedSize()
+                    }
+                    .onTapGesture {
+                        selectedLocation = location
+                    }
+                    
                 }
             }
-        } else {
-            // no biometrics
+                .ignoresSafeArea()
+            
+            Circle()
+                .fill(.blue)
+                .opacity(0.3)
+                .frame(width: 32, height: 32)
+            
+            VStack {
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        let newLocation = Location(id: UUID(), name: "New Location", description: "", latitude: mapRegion.center.latitude, longitude: mapRegion.center.longitude)
+                        locations.append(newLocation)
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .padding()
+                    .background(.black.opacity(0.75))
+                    .font(.title)
+                    .foregroundColor(.white)
+                    .clipShape(Circle())
+                    .padding(.trailing)
+                }
+            }
+        }
+        .sheet(item: $selectedLocation) { place in
+            //the onSave closure is passed here i.e. initialised here but this would be called later when the onSave function is called in the EditView file. (hence the @escaping
+            EditView(location: place) { newLocation in
+                if let index = locations.firstIndex(of: place) {
+                    locations[index] = newLocation
+                }
+            }
         }
     }
 }
