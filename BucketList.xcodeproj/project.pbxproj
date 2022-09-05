@@ -16,6 +16,7 @@
 		512E44AD28C54B1000BD60A1 /* ContentView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E44AC28C54B1000BD60A1 /* ContentView-ViewModel.swift */; };
 		512E44AF28C54ECE00BD60A1 /* FileManager-DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E44AE28C54ECE00BD60A1 /* FileManager-DocumentsDirectory.swift */; };
 		51C83A3228C239C9002F3F3F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C83A3128C239C9002F3F3F /* Location.swift */; };
+		51FFAB0228C60AB0005AE905 /* EditView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FFAB0128C60AB0005AE905 /* EditView-ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		512E44AC28C54B1000BD60A1 /* ContentView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView-ViewModel.swift"; sourceTree = "<group>"; };
 		512E44AE28C54ECE00BD60A1 /* FileManager-DocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager-DocumentsDirectory.swift"; sourceTree = "<group>"; };
 		51C83A3128C239C9002F3F3F /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		51FFAB0128C60AB0005AE905 /* EditView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditView-ViewModel.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				512E44AE28C54ECE00BD60A1 /* FileManager-DocumentsDirectory.swift */,
 				512E44AA28C5439400BD60A1 /* Result.swift */,
 				512E44A828C5340000BD60A1 /* EditView.swift */,
+				51FFAB0128C60AB0005AE905 /* EditView-ViewModel.swift */,
 				512E44AC28C54B1000BD60A1 /* ContentView-ViewModel.swift */,
 				512B6A6928BFAD2F000BA842 /* Assets.xcassets */,
 				512B6A6B28BFAD2F000BA842 /* Preview Content */,
@@ -157,6 +160,7 @@
 				512E44AD28C54B1000BD60A1 /* ContentView-ViewModel.swift in Sources */,
 				512E44AB28C5439400BD60A1 /* Result.swift in Sources */,
 				51C83A3228C239C9002F3F3F /* Location.swift in Sources */,
+				51FFAB0228C60AB0005AE905 /* EditView-ViewModel.swift in Sources */,
 				512E44A928C5340000BD60A1 /* EditView.swift in Sources */,
 				512B6A6628BFAD2E000BA842 /* BucketListApp.swift in Sources */,
 			);

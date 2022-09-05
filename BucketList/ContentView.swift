@@ -20,7 +20,7 @@ struct ContentView: View {
                             Image(systemName: "star.circle")
                                 .resizable()
                                 .foregroundColor(.red)
-                                .frame(width: 44, height: 44)
+                                .frame(width: 32, height: 32)
                                 .background(.white)
                                 .clipShape(Circle())
                             
@@ -67,6 +67,7 @@ struct ContentView: View {
                 }
             }
         } else {
+            
             Button("Unlock Places") {
                 viewModel.authenticate()
             }

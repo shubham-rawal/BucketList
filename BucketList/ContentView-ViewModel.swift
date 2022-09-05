@@ -16,6 +16,7 @@ extension ContentView {
         @Published var selectedLocation : Location?
         @Published var isUnlocked = false
         
+        
         //document directory where places data needs to be saved in device storage
         let savePath = FileManager.documentsDirectory.appendingPathComponent("SavedPlaces")
         
